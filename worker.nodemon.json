@@ -1,0 +1,12 @@
+{
+    "ignore": [
+        "web",
+        "server"
+    ],
+    "ext": "ts,sql,json,js",
+    "exec": "node --trace-warnings -r ./node_modules/ts-node/register ./workers/worker.ts",
+    "env": {
+        "NODE_ENV": "development"
+    },
+    "signal": "SIGTERM"
+}

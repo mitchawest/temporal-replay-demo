@@ -1,0 +1,92 @@
+x-common-service-settings: &common-service-settings
+  networks:
+    - temporalplatform
+  restart: always
+networks:
+  temporalplatform:
+    name: local-development_temporalplatform
+services:
+
+################################################################################
+# server
+################################################################################
+    server:
+      <<: *common-service-settings
+      container_name: temporal_platform_server
+      image: temporalplatform:server
+      build:
+        context: ./
+        dockerfile: ./Dockerfile
+      volumes:
+        - ./:/usr/src/app
+        - ./node_modules:/usr/src/app/node_modules
+      ports:
+        - 8005:8005
+      command: sh -c 'nodemon --config server.nodemon.json'
+
+################################################################################
+# web
+################################################################################
+    web:
+      <<: *common-service-settings
+      container_name: temporal_platform_web
+      image: temporalplatform:web
+      build:
+        context: ./
+        dockerfile: ./Dockerfile
+      volumes:
+        - ./:/usr/src/app
+        - ./node_modules:/usr/src/app/node_modules
+      ports:
+        - 3000:3000
+      command: npm run web
+
+
+################################################################################
+# worker
+################################################################################
+    worker:
+      <<: *common-service-settings
+      container_name: temporal_platform_worker
+      image: temporalplatform:worker
+      build:
+        context: ./
+        dockerfile: ./Dockerfile
+      volumes:
+        - ./:/usr/src/app
+        - /usr/src/app/node_modules
+      ports:
+        - 9245:9245
+      command: sh -c 'nodemon --config worker.nodemon.json'
+
+################################################################################
+# redis
+################################################################################
+    redis:
+      <<: *common-service-settings
+      container_name: temporal_platform_redis
+      image: redis
+      ports:
+        - 6379:6379
+
+################################################################################
+# temporal
+################################################################################
+    temporal:
+      <<: *common-service-settings
+      container_name: temporal_platform_temporal_server
+      image: temporalplatform:temporal_server
+      build:
+        context: ./
+        dockerfile: ./Dockerfile
+      command: >
+        bash -c '\
+          apt-get install curl && \
+          curl -sSf https://temporal.download/cli.sh | sh && \
+          PATH="\$PATH:/root/.temporalio/bin" >> ~/.bashrc && \
+          source ~/.bashrc && \
+          temporal server start-dev --namespace default --ip 0.0.0.0
+        '
+      ports:
+        - 7233:7233
+        - 80:8233
