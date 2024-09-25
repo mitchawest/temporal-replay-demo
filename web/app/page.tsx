@@ -9,6 +9,7 @@ import {
 } from '@tanstack/react-table'
 import { toast } from 'react-hot-toast'
 import axios from 'axios'
+import clsx from 'clsx';
 
 type Code = {
   batchId: string;
@@ -128,27 +129,16 @@ export default function Home() {
       flexDirection: 'column',
       padding: '10px'
     }}>
-      <main className={styles.main} style={{
-        width: '75vw',
-        alignItems: 'center',
-        backgroundColor: 'white',
-        borderRadius: '5px',
-        padding: '20px',
-        color: 'black',
-        fontSize: '30px',
-        fontWeight: '600',
-        boxShadow: '1px 1px 15px lightslategrey'
-      }}>
-      <h1 style={{color: '#383838', fontSize: '70px', fontWeight: 200}}>Promo Generator</h1>
-        <div className={styles.ctas} style={{flexDirection: 'column', justifyContent: 'space-between', width: '85%', alignItems: 'start'}}>
-          <div className={styles.ctas} style={{flexDirection: 'column', height: '100px', justifyContent: 'end'}}>
+      <main className={styles.main}>
+      <h1 className={styles.header}>Promo Generator</h1>
+        <div className={clsx(styles.ctas, styles.section)}>
+          <div className={clsx(styles.ctas, styles.column)}>
             <label htmlFor="code-count">Count</label>
             <input
               id="code-count"
-              className={styles.primary}
+              className={clsx(styles.primary, styles.input)}
               type="number"
               placeholder="10000"
-              style={{height: '50px', fontSize: '30px'}}
               value={count}
               onChange={({nativeEvent}) => {
                 const event: any = nativeEvent
@@ -157,46 +147,41 @@ export default function Home() {
             >
             </input>
           </div>
-          <div style={{display: 'flex', flexDirection: 'row'}}>
+          <div className={styles.buttonContainer}>
             <a
-              className={styles.primary}
-              style={{width: '225px', fontSize: '30px', marginRight: '10px'}}
+              className={clsx(styles.primary,styles.button)}
               onClick={() => createBatch()}
             >
               Create
             </a>
             <a
-              className={styles.primary}
-              style={{width: '225px', fontSize: '30px', marginRight: '10px'}}
+              className={clsx(styles.primary,styles.button)}
               onClick={() => createSafeBatch()}
             >
               Safe Create
             </a>
             <a
-              className={styles.primary}
-              style={{width: '225px', fontSize: '30px', marginRight: '10px'}}
+              className={clsx(styles.primary,styles.button)}
               onClick={() => createScheduled()}
             >
               Schedule
             </a>
             <a
-              className={styles.primary}
-              style={{width: '225px', fontSize: '30px', marginRight: '10px'}}
+              className={clsx(styles.primary,styles.button)}
               onClick={() => setSchedulePausedState()}
             >
               {`${pausedState.text}`}
             </a>
           </div>
         </div>
-        <div className={styles.ctas} style={{flexDirection: 'column', justifyContent: 'space-between', width: '85%', alignItems: 'start'}}>
-          <div className={styles.ctas} style={{flexDirection: 'column', width: '100%', justifyContent: 'end'}}>
+        <div className={clsx(styles.ctas, styles.section)}>
+          <div className={clsx(styles.ctas, styles.column)}>
             <label htmlFor="batch-id">Batch ID</label>
             <input
               id="batch-id"
-              className={styles.primary}
+              className={clsx(styles.primary, styles.input)}
               type="text"
               placeholder='b40c8740-7737-42d3-800b-c427bca1dc8a' 
-              style={{height: '50px', width: '100%', fontSize: '30px'}}
               value={batchId}
               onChange={({nativeEvent}) => {
                 const event: any = nativeEvent
@@ -206,8 +191,7 @@ export default function Home() {
             </input>
           </div>
           <a
-            className={styles.primary}
-            style={{width: '300px', fontSize: '30px'}}
+            className={clsx(styles.primary, styles.button)}
             onClick={() => {
                 setRange([1, 5])
                 fetchCodes([1, 5])
@@ -217,12 +201,12 @@ export default function Home() {
             Search
           </a>
         </div>
-      <div style={{display:'flex', flexDirection: 'column', alignItems: 'center', width: '85%'}}>
-        <div style={{display: 'flex', width: '50%', justifyContent: 'space-between'}}>
+      <div className={styles.sectionCentered}>
+        <div className={styles.tableMeta}>
           <label>Records: {range[0]} - {range[1]}</label>
           <label>{`Total: ${dataTotal}`}</label>
         </div>
-        <div style={{display: 'flex', flexDirection: 'row', width: '75px', justifyContent: 'space-between', fontSize: '24px', fontWeight: '500', marginBottom: '5px'}}>
+        <div className={styles.tableNav}>
           <a 
             style={{cursor: 'pointer'}} 
             onClick={() => {
@@ -239,13 +223,13 @@ export default function Home() {
             }}>{'>'}</a>
         </div>
         {data?.length ? 
-          <div className="p-2" style={{width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-            <table style={{width: '100%', backgroundColor: '#383838', color: 'white', borderRadius: '5px', minHeight: '10vh', border: '2px solid rgb(118, 118, 118)'}}>
+          <div className={styles.sectionCentered}>
+            <table className={styles.table}>
               <thead>
                 {table.getHeaderGroups().map(headerGroup => (
                   <tr key={headerGroup.id}>
                     {headerGroup.headers.map(header => (
-                      <th key={header.id} style={{ borderBottom: '1px solid white', padding: '5px', textAlign: 'center', width: '50%'}}>
+                      <th key={header.id} className={styles.tableHeader}>
                         {header.isPlaceholder
                           ? null
                           : flexRender(
@@ -259,9 +243,9 @@ export default function Home() {
               </thead>
               <tbody>
                 {table.getRowModel().rows.map(row => (
-                  <tr key={row.id} style={{textAlign: 'center'}}>
+                  <tr key={row.id} className={styles.tableContent}>
                     {row.getVisibleCells().map(cell => (
-                      <td key={cell.id} style={{ padding: '5px', fontSize: '20px'}}>
+                      <td key={cell.id} className={styles.tableContent}>
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                       </td>
                     ))}

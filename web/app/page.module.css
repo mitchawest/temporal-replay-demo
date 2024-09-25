@@ -16,6 +16,12 @@
   font-family: var(--font-geist-sans);
 }
 
+.button {
+  width: 225px;
+  font-size: 30px !important;
+  margin-right: 10px;
+}
+
 @media (prefers-color-scheme: dark) {
   .page {
     --gray-rgb: 255, 255, 255;
@@ -27,11 +33,94 @@
   }
 }
 
+.header {
+  color: #383838;
+  font-size: 70px;
+  font-weight: 200;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
+.buttonContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-size: 30px;
+}
+
+.tableMeta {
+  display: flex;
+  width: 50%;
+  justify-content: space-between;
+}
+
+.tableNav {
+  display: flex;
+  flex-direction: row;
+  width: 75px;
+  justify-content: space-between;
+  font-size: 24px;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+.tableContent {
+  text-align: center;
+  padding: 5px;
+  font-size: 20px;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  width: 85%;
+}
+
+.sectionCentered {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  align-items: center;
+}
+
+.table {
+  width: 100%;
+  background-color: #383838;
+  color: white;
+  border-radius: 5px;
+  min-height: 10vh;
+  border: 2px solid rgb(118, 118, 118);
+}
+
+.tableHeader {
+  border-bottom: 1px solid white;
+  padding: 5px;
+  text-align: center;
+  width: 50%;
+}
+
+.input {
+  height: 50px;
+  font-size: 30px;
+}
+
 .main {
   display: flex;
   flex-direction: column;
   gap: 32px;
   grid-row-start: 2;
+  width: 75vw;
+  align-items: center;
+  background-color: white;
+  border-radius: 5px;
+  padding: 20px;
+  color: black;
+  font-size: 30px;
+  font-weight: 600;
+  box-shadow: 1px 1px 15px lightslategrey;
 }
 
 .main ol {
@@ -79,7 +168,7 @@
 }
 
 a.primary {
-  background: var(--foreground);
+  background: #383838;
   color: var(--background);
   gap: 8px;
 }
@@ -108,7 +197,7 @@ a.secondary {
 /* Enable hover only on non-touch devices */
 @media (hover: hover) and (pointer: fine) {
   a.primary:hover {
-    background: var(--button-primary-hover);
+    background: #6b6b6b;
     border-color: transparent;
   }
 
