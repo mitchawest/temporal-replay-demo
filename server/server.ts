@@ -100,11 +100,11 @@ const run = async () => {
       await temporalClient.client?.schedule.create({
         scheduleId: 'PendingPromotionCodeSchedule',
         spec: {
-          intervals: [{every: 1000 * 15}]
+          intervals: [{every: 1000 * 60}]
         },
         action: {
           type: 'startWorkflow',
-          workflowType: 'scheduledCreatePromotionCodes',
+          workflowType: 'scheduledCreatePromotionCodesPausable',
           taskQueue: 'default'
         }
       }) as ScheduleHandle

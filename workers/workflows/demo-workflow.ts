@@ -7,8 +7,7 @@ import {
   setHandler,
   sleep,
   startChild,
-  uuid4,
-  workflowInfo
+  uuid4
 } from '@temporalio/workflow'
 import { ActivityOptions, Workflow } from '@temporalio/common'
 
